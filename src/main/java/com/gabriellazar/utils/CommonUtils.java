@@ -1,11 +1,12 @@
 package com.gabriellazar.utils;
 
-import com.gabriellazar.exception.DataNotFoundException;
-
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 public class CommonUtils {
+
+    /**
+     * Check if the number is more than 0
+     * @param number number to check
+     * @return true or false;
+     */
 
     public static boolean isMoreThanZero(int number){
         if(number < 1){
@@ -14,6 +15,11 @@ public class CommonUtils {
         return true;
     }
 
+    /**
+     * Format the double to 2 decimal points
+     * @param number double to format
+     * @return eg: "#.##"
+     */
     public static String formatDouble(Double number){
         return String.format("%.2f",number);
     }

@@ -2,7 +2,7 @@ package com.gabriellazar.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gabriellazar.data.Constants;
-import com.gabriellazar.exception.DataNotFoundException;
+import com.gabriellazar.exception.InvalidDataException;
 import com.gabriellazar.models.*;
 import com.gabriellazar.services.CarpetCostCalculatorService;
 import com.gabriellazar.services.CityService;
@@ -47,7 +47,7 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
                     calculator.setStateTax("$" + CommonUtils.formatDouble(stateTaxes));
                     calculator.setFinalPrice("$" + CommonUtils.formatDouble(finalPrice));
                 } else {
-                    throw new DataNotFoundException("Radius value must be over 0.");
+                    throw new InvalidDataException("Radius value must be over 0.");
                 }
             } else if (carpet.getShape().containsKey("rectangle")) {
                 RectangleShape rectangleShape = objectMapper.convertValue(carpet.getShape().get("rectangle"), RectangleShape.class);
@@ -71,7 +71,7 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
                     calculator.setFinalPrice("$" + CommonUtils.formatDouble(finalPrice));
 
                 } else {
-                    throw new DataNotFoundException("Width and Length values must be over 0.");
+                    throw new InvalidDataException("Width and Length values must be over 0.");
                 }
             } else if (carpet.getShape().containsKey("triangle")) {
 
@@ -83,7 +83,7 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
                     int height = triangleShape.getHeight();
                     double tax = cityService.getStateTaxByCity(city);
                     double price = cityService.getPriceByCity(city);
-                    double area = (base * height) / 2;
+                    double area = (base * height) / 2f;
                     double priceBeforeTaxes = area * price;
                     double stateTaxes = priceBeforeTaxes * (tax / 100);
                     double finalPrice = priceBeforeTaxes + stateTaxes;
@@ -97,12 +97,14 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
                     calculator.setFinalPrice("$" + CommonUtils.formatDouble(finalPrice));
 
                 } else {
-                    throw new DataNotFoundException("Base and height values must be over 0.");
+                    throw new InvalidDataException("Base and height values must be over 0.");
                 }
 
+            } else {
+                throw new InvalidDataException("Shape is not in the format of  circle, rectangle or triangle.");
             }
         } else {
-            throw new DataNotFoundException("City was not found with name :: " + city);
+            throw new InvalidDataException("City was not found with name :: " + city);
         }
         return calculator;
     }

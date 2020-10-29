@@ -19,13 +19,6 @@ public class CarpetCostApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(CarpetCostApplication.class, args);
-
-
-
     }
-
-
-
-
 
 }
