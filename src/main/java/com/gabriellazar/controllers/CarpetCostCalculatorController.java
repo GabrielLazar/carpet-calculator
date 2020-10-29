@@ -28,6 +28,35 @@ public class CarpetCostCalculatorController {
         this.carpetCostCalculatorService = carpetCostCalculatorService;
     }
 
+    /*
+    {
+    "rectangle":{
+        "width": int,
+        "length": int
+    },
+    "city":"String"
+    }
+
+
+    {
+    "circle":{
+        "radius": int
+    },
+    "city":"String"
+    }
+
+
+    {
+    "triangle":{
+        "base": 2,
+        "height": 2
+    },
+    "city":"Dallas"
+    }
+
+     */
+
+
     @PostMapping
     public ResponseEntity<Calculator> calculateCarpetPrice(@RequestBody Carpet carpet) {
 

@@ -64,7 +64,7 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
 
                     calculator.setCity(city);
                     calculator.setState(States.getState(city).toString());
-                    calculator.setShape("circle");
+                    calculator.setShape("rectangle");
                     calculator.setArea(CommonUtils.formatDouble(area));
                     calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
                     calculator.setStateTax("$" + CommonUtils.formatDouble(stateTaxes));
@@ -90,7 +90,7 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
 
                     calculator.setCity(city);
                     calculator.setState(States.getState(city).toString());
-                    calculator.setShape("circle");
+                    calculator.setShape("triangle");
                     calculator.setArea(CommonUtils.formatDouble(area));
                     calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
                     calculator.setStateTax("$" + CommonUtils.formatDouble(stateTaxes));
@@ -101,7 +101,7 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
                 }
 
             } else {
-                throw new InvalidDataException("Shape is not in the format of  circle, rectangle or triangle.");
+                throw new InvalidDataException("Shape is not in the format of circle, rectangle or triangle.");
             }
         } else {
             throw new InvalidDataException("City was not found with name :: " + city);
