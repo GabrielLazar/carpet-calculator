@@ -26,31 +26,80 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
         Calculator calculator = new Calculator();
         ObjectMapper objectMapper = new ObjectMapper();
         String city = carpet.getCity();
-        if(cityService.isValidCity(city)){
-            if(carpet.getShape().containsKey("circle")){
-                CircleShape circleShape = objectMapper.convertValue(carpet.getShape().get("circle"),CircleShape.class);
-                if(CommonUtils.isMoreThanZero(circleShape.getRadius())){
+        if (cityService.isValidCity(city)) {
+            if (carpet.getShape().containsKey("circle")) {
+                CircleShape circleShape = objectMapper.convertValue(carpet.getShape().get("circle"), CircleShape.class);
+                if (CommonUtils.isMoreThanZero(circleShape.getRadius())) {
 
                     int radius = circleShape.getRadius();
                     double tax = cityService.getStateTaxByCity(city);
                     double price = cityService.getPriceByCity(city);
                     double area = Constants.PI * (radius * radius);
                     double priceBeforeTaxes = area * price;
-                    double stateTaxes = priceBeforeTaxes * (tax/100);
+                    double stateTaxes = priceBeforeTaxes * (tax / 100);
                     double finalPrice = priceBeforeTaxes + stateTaxes;
 
                     calculator.setCity(city);
                     calculator.setState(States.getState(city).toString());
                     calculator.setShape("circle");
-                    calculator.setArea(area);
-                    calculator.setPriceBeforeTaxes(priceBeforeTaxes);
-                    calculator.setStateTax(stateTaxes);
-                    calculator.setFinalPrice(finalPrice);
+                    calculator.setArea(CommonUtils.formatDouble(area));
+                    calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
+                    calculator.setStateTax("$" + CommonUtils.formatDouble(stateTaxes));
+                    calculator.setFinalPrice("$" + CommonUtils.formatDouble(finalPrice));
                 } else {
-                    throw new DataNotFoundException("Number must be over 0.");
+                    throw new DataNotFoundException("Radius value must be over 0.");
                 }
-            } else if(carpet.getShape().containsKey("rectangle")){
-                RectangleShape rectangleShape = (RectangleShape) carpet.getShape().get("rectangle");
+            } else if (carpet.getShape().containsKey("rectangle")) {
+                RectangleShape rectangleShape = objectMapper.convertValue(carpet.getShape().get("rectangle"), RectangleShape.class);
+                if (CommonUtils.isMoreThanZero(rectangleShape.getLength()) && CommonUtils.isMoreThanZero(rectangleShape.getWidth())) {
+
+                    int length = rectangleShape.getLength();
+                    int width = rectangleShape.getLength();
+                    double tax = cityService.getStateTaxByCity(city);
+                    double price = cityService.getPriceByCity(city);
+                    double area = length * width;
+                    double priceBeforeTaxes = area * price;
+                    double stateTaxes = priceBeforeTaxes * (tax / 100);
+                    double finalPrice = priceBeforeTaxes + stateTaxes;
+
+                    calculator.setCity(city);
+                    calculator.setState(States.getState(city).toString());
+                    calculator.setShape("circle");
+                    calculator.setArea(CommonUtils.formatDouble(area));
+                    calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
+                    calculator.setStateTax("$" + CommonUtils.formatDouble(stateTaxes));
+                    calculator.setFinalPrice("$" + CommonUtils.formatDouble(finalPrice));
+
+                } else {
+                    throw new DataNotFoundException("Width and Length values must be over 0.");
+                }
+            } else if (carpet.getShape().containsKey("triangle")) {
+
+                TriangleShape triangleShape = objectMapper.convertValue(carpet.getShape().get("triangle"), TriangleShape.class);
+
+                if (CommonUtils.isMoreThanZero(triangleShape.getBase()) && CommonUtils.isMoreThanZero(triangleShape.getHeight())) {
+
+                    int base = triangleShape.getBase();
+                    int height = triangleShape.getHeight();
+                    double tax = cityService.getStateTaxByCity(city);
+                    double price = cityService.getPriceByCity(city);
+                    double area = (base * height) / 2;
+                    double priceBeforeTaxes = area * price;
+                    double stateTaxes = priceBeforeTaxes * (tax / 100);
+                    double finalPrice = priceBeforeTaxes + stateTaxes;
+
+                    calculator.setCity(city);
+                    calculator.setState(States.getState(city).toString());
+                    calculator.setShape("circle");
+                    calculator.setArea(CommonUtils.formatDouble(area));
+                    calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
+                    calculator.setStateTax("$" + CommonUtils.formatDouble(stateTaxes));
+                    calculator.setFinalPrice("$" + CommonUtils.formatDouble(finalPrice));
+
+                } else {
+                    throw new DataNotFoundException("Base and height values must be over 0.");
+                }
+
             }
         } else {
             throw new DataNotFoundException("City was not found with name :: " + city);

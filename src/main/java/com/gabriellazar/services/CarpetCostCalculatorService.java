@@ -1,6 +1,9 @@
 package com.gabriellazar.services;
 
+import com.gabriellazar.models.Calculator;
+import com.gabriellazar.models.Carpet;
+
 public interface CarpetCostCalculatorService {
 
-  // double carpetCostCalculator(Carpet carpet);
+  Calculator carpetCostCalculator(Carpet carpet);
 }

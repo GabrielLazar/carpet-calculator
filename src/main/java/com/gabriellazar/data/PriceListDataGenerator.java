@@ -1,7 +1,10 @@
 package com.gabriellazar.data;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class PriceListDataGenerator {
 

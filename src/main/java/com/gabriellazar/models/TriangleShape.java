@@ -6,40 +6,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TriangleShape {
 
-    @JsonProperty("sideA")
-    private int sideA;
-    @JsonProperty("sideB")
-    private int sideB;
-    @JsonProperty("sideC")
-    private int sideC;
+    @JsonProperty("base")
+    private int base;
+    @JsonProperty("height")
+    private int height;
 
-    @JsonProperty("sideA")
-    public int getSideA() {
-        return sideA;
+    @JsonProperty("base")
+    public int getBase() {
+        return base;
     }
 
-    @JsonProperty("sideA")
-    public void setSideA(int sideA) {
-        this.sideA = sideA;
+    @JsonProperty("base")
+    public void setBase(int base) {
+        this.base = base;
     }
 
-    @JsonProperty("sideB")
-    public int getSideB() {
-        return sideB;
+    @JsonProperty("height")
+    public int getHeight() {
+        return height;
     }
 
-    @JsonProperty("sideB")
-    public void setSideB(int sideB) {
-        this.sideB = sideB;
-    }
-
-    @JsonProperty("sideC")
-    public int getSideC() {
-        return sideC;
-    }
-
-    @JsonProperty("sideC")
-    public void setSideC(int sideC) {
-        this.sideC = sideC;
+    @JsonProperty("height")
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

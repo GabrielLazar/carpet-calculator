@@ -1,5 +1,8 @@
 package com.gabriellazar.models;
+import org.springframework.stereotype.Component;
+
 import java.util.*;
+
 
 public enum States {
     VA("Arlington","Fairfax","McLean"),
