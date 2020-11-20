@@ -1,6 +1,5 @@
 package com.gabriellazar.services;
 
-import org.springframework.stereotype.Component;
 
 
 public interface CityService {
@@ -10,4 +9,6 @@ public interface CityService {
     double getPriceByCity(String city);
 
     double getStateTaxByCity(String city);
+
+    String getStateByCity(String city);
 }

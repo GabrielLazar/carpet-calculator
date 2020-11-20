@@ -1,40 +1,44 @@
 package com.gabriellazar.services.impl;
 
-import com.gabriellazar.data.Constants;
-import com.gabriellazar.data.PriceListDataGenerator;
-import com.gabriellazar.models.States;
+import com.gabriellazar.exception.InvalidDataException;
+import com.gabriellazar.models.City;
+import com.gabriellazar.repositories.CityRepository;
 import com.gabriellazar.services.CityService;
-import org.springframework.stereotype.Component;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@Component
+
+
+@Service
 public class CityServiceImplementation implements CityService {
 
+    @Autowired
+    CityRepository cityRepository;
 
     @Override
     public boolean isValidCity(String city) {
-        if (!States.hasCity(city)) {
-           return false;
-        }
-        return true;
+     return cityRepository.findByCityName(city).isPresent();
+
     }
 
     @Override
-    public double getPriceByCity(String city) {
-      Map<String, Double> priceList =  PriceListDataGenerator.getPriceList();
-      return priceList.get(city);
+    public double getPriceByCity(String cityName) {
+       City city = cityRepository.findByCityName(cityName).orElseThrow(
+               () -> new InvalidDataException("City not found with this name :: " + cityName));
+       return city.getPrice();
     }
 
     @Override
-    public double getStateTaxByCity(String city) {
+    public double getStateTaxByCity(String cityName) {
+        City city = cityRepository.findByCityName(cityName).orElseThrow(
+                () -> new InvalidDataException("City not found with this name :: " + cityName));
+        return city.getState().getStateTax();
+    }
 
-        switch (States.getState(city)){
-            case TX:
-                return Constants.TX_TAX;
-            case VA:
-                return Constants.VA_TAX;
-            default:
-                return 0.0;
-        }
+    @Override
+    public String getStateByCity(String cityName) {
+        City city = cityRepository.findByCityName(cityName).orElseThrow(
+                () -> new InvalidDataException("City not found with this name :: " + cityName));
+        return city.getState().getStateAbv();
     }
 }

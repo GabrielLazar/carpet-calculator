@@ -40,7 +40,7 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
                     double finalPrice = priceBeforeTaxes + stateTaxes;
 
                     calculator.setCity(city);
-                    calculator.setState(States.getState(city).toString());
+                    calculator.setState(cityService.getStateByCity(city));
                     calculator.setShape("circle");
                     calculator.setArea(CommonUtils.formatDouble(area));
                     calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
@@ -63,7 +63,7 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
                     double finalPrice = priceBeforeTaxes + stateTaxes;
 
                     calculator.setCity(city);
-                    calculator.setState(States.getState(city).toString());
+                    calculator.setState(cityService.getStateByCity(city));
                     calculator.setShape("rectangle");
                     calculator.setArea(CommonUtils.formatDouble(area));
                     calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
@@ -89,7 +89,7 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
                     double finalPrice = priceBeforeTaxes + stateTaxes;
 
                     calculator.setCity(city);
-                    calculator.setState(States.getState(city).toString());
+                    calculator.setState(cityService.getStateByCity(city));
                     calculator.setShape("triangle");
                     calculator.setArea(CommonUtils.formatDouble(area));
                     calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
