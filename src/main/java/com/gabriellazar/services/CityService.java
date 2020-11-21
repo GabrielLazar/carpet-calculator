@@ -1,6 +1,7 @@
 package com.gabriellazar.services;
 
 
+import java.util.List;
 
 public interface CityService {
 
@@ -11,4 +12,7 @@ public interface CityService {
     double getStateTaxByCity(String city);
 
     String getStateByCity(String city);
+
+    List<String> getCities();
+
 }

@@ -24,14 +24,11 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
     @Override
     public Calculator carpetCostCalculator(Carpet carpet) {
         Calculator calculator = new Calculator();
-        ObjectMapper objectMapper = new ObjectMapper();
-        String city = carpet.getCity();
+        String city = carpet.getCity().substring(0,carpet.getCity().indexOf(" "));
         if (cityService.isValidCity(city)) {
-            if (carpet.getShape().containsKey("circle")) {
-                CircleShape circleShape = objectMapper.convertValue(carpet.getShape().get("circle"), CircleShape.class);
-                if (CommonUtils.isMoreThanZero(circleShape.getRadius())) {
+            if (carpet.getShape().getRadius() != 0) {
 
-                    int radius = circleShape.getRadius();
+                    int radius = carpet.getShape().getRadius();
                     double tax = cityService.getStateTaxByCity(city);
                     double price = cityService.getPriceByCity(city);
                     double area = Constants.PI * (radius * radius);
@@ -46,15 +43,11 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
                     calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
                     calculator.setStateTax("$" + CommonUtils.formatDouble(stateTaxes));
                     calculator.setFinalPrice("$" + CommonUtils.formatDouble(finalPrice));
-                } else {
-                    throw new InvalidDataException("Radius value must be over 0.");
-                }
-            } else if (carpet.getShape().containsKey("rectangle")) {
-                RectangleShape rectangleShape = objectMapper.convertValue(carpet.getShape().get("rectangle"), RectangleShape.class);
-                if (CommonUtils.isMoreThanZero(rectangleShape.getLength()) && CommonUtils.isMoreThanZero(rectangleShape.getWidth())) {
 
-                    int length = rectangleShape.getLength();
-                    int width = rectangleShape.getLength();
+            } else if (carpet.getShape().getLength() != 0  && carpet.getShape().getWidth() != 0) {
+
+                    int length = carpet.getShape().getLength();
+                    int width = carpet.getShape().getWidth();
                     double tax = cityService.getStateTaxByCity(city);
                     double price = cityService.getPriceByCity(city);
                     double area = length * width;
@@ -70,17 +63,10 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
                     calculator.setStateTax("$" + CommonUtils.formatDouble(stateTaxes));
                     calculator.setFinalPrice("$" + CommonUtils.formatDouble(finalPrice));
 
-                } else {
-                    throw new InvalidDataException("Width and Length values must be over 0.");
-                }
-            } else if (carpet.getShape().containsKey("triangle")) {
+            } else if (carpet.getShape().getBase() != 0 && carpet.getShape().getHeight() != 0) {
 
-                TriangleShape triangleShape = objectMapper.convertValue(carpet.getShape().get("triangle"), TriangleShape.class);
-
-                if (CommonUtils.isMoreThanZero(triangleShape.getBase()) && CommonUtils.isMoreThanZero(triangleShape.getHeight())) {
-
-                    int base = triangleShape.getBase();
-                    int height = triangleShape.getHeight();
+                    int base = carpet.getShape().getBase();
+                    int height = carpet.getShape().getHeight();
                     double tax = cityService.getStateTaxByCity(city);
                     double price = cityService.getPriceByCity(city);
                     double area = (base * height) / 2f;
@@ -95,10 +81,6 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
                     calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
                     calculator.setStateTax("$" + CommonUtils.formatDouble(stateTaxes));
                     calculator.setFinalPrice("$" + CommonUtils.formatDouble(finalPrice));
-
-                } else {
-                    throw new InvalidDataException("Base and height values must be over 0.");
-                }
 
             } else {
                 throw new InvalidDataException("Shape is not in the format of circle, rectangle or triangle.");
