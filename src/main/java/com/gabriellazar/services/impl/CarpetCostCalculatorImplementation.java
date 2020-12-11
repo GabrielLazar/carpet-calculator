@@ -23,64 +23,70 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
 
     @Override
     public Calculator carpetCostCalculator(Carpet carpet) {
-        Calculator calculator = new Calculator();
-        String city = carpet.getCity().substring(0,carpet.getCity().indexOf(" "));
+        Calculator calculator = null;
+        String city = carpet.getCity().substring(0, carpet.getCity().indexOf(" "));
         if (cityService.isValidCity(city)) {
             if (carpet.getShape().getRadius() != 0) {
 
-                    int radius = carpet.getShape().getRadius();
-                    double tax = cityService.getStateTaxByCity(city);
-                    double price = cityService.getPriceByCity(city);
-                    double area = Constants.PI * (radius * radius);
-                    double priceBeforeTaxes = area * price;
-                    double stateTaxes = priceBeforeTaxes * (tax / 100);
-                    double finalPrice = priceBeforeTaxes + stateTaxes;
+                int radius = carpet.getShape().getRadius();
+                double tax = cityService.getStateTaxByCity(city);
+                double price = cityService.getPriceByCity(city);
+                double area = Constants.PI * (radius * radius);
+                double priceBeforeTaxes = area * price;
+                double stateTaxes = priceBeforeTaxes * (tax / 100);
+                double finalPrice = priceBeforeTaxes + stateTaxes;
 
-                    calculator.setCity(city);
-                    calculator.setState(cityService.getStateByCity(city));
-                    calculator.setShape("circle");
-                    calculator.setArea(CommonUtils.formatDouble(area));
-                    calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
-                    calculator.setStateTax("$" + CommonUtils.formatDouble(stateTaxes));
-                    calculator.setFinalPrice("$" + CommonUtils.formatDouble(finalPrice));
+                calculator = Calculator.builder()
+                        .city(city)
+                        .state(cityService.getStateByCity(city))
+                        .shape("circle")
+                        .area(CommonUtils.formatDouble(area))
+                        .priceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes))
+                        .stateTax("$" + CommonUtils.formatDouble(stateTaxes))
+                        .finalPrice("$" + CommonUtils.formatDouble(finalPrice))
+                        .build();
 
-            } else if (carpet.getShape().getLength() != 0  && carpet.getShape().getWidth() != 0) {
+            } else if (carpet.getShape().getLength() != 0 && carpet.getShape().getWidth() != 0) {
 
-                    int length = carpet.getShape().getLength();
-                    int width = carpet.getShape().getWidth();
-                    double tax = cityService.getStateTaxByCity(city);
-                    double price = cityService.getPriceByCity(city);
-                    double area = length * width;
-                    double priceBeforeTaxes = area * price;
-                    double stateTaxes = priceBeforeTaxes * (tax / 100);
-                    double finalPrice = priceBeforeTaxes + stateTaxes;
+                int length = carpet.getShape().getLength();
+                int width = carpet.getShape().getWidth();
+                double tax = cityService.getStateTaxByCity(city);
+                double price = cityService.getPriceByCity(city);
+                double area = length * width;
+                double priceBeforeTaxes = area * price;
+                double stateTaxes = priceBeforeTaxes * (tax / 100);
+                double finalPrice = priceBeforeTaxes + stateTaxes;
 
-                    calculator.setCity(city);
-                    calculator.setState(cityService.getStateByCity(city));
-                    calculator.setShape("rectangle");
-                    calculator.setArea(CommonUtils.formatDouble(area));
-                    calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
-                    calculator.setStateTax("$" + CommonUtils.formatDouble(stateTaxes));
-                    calculator.setFinalPrice("$" + CommonUtils.formatDouble(finalPrice));
+                calculator = Calculator.builder()
+                        .city(city)
+                        .state(cityService.getStateByCity(city))
+                        .shape("rectangle")
+                        .area(CommonUtils.formatDouble(area))
+                        .priceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes))
+                        .stateTax("$" + CommonUtils.formatDouble(stateTaxes))
+                        .finalPrice("$" + CommonUtils.formatDouble(finalPrice))
+                        .build();
 
             } else if (carpet.getShape().getBase() != 0 && carpet.getShape().getHeight() != 0) {
 
-                    int base = carpet.getShape().getBase();
-                    int height = carpet.getShape().getHeight();
-                    double tax = cityService.getStateTaxByCity(city);
-                    double price = cityService.getPriceByCity(city);
-                    double area = (base * height) / 2f;
-                    double priceBeforeTaxes = area * price;
-                    double stateTaxes = priceBeforeTaxes * (tax / 100);
-                    double finalPrice = priceBeforeTaxes + stateTaxes;
+                int base = carpet.getShape().getBase();
+                int height = carpet.getShape().getHeight();
+                double tax = cityService.getStateTaxByCity(city);
+                double price = cityService.getPriceByCity(city);
+                double area = (base * height) / 2f;
+                double priceBeforeTaxes = area * price;
+                double stateTaxes = priceBeforeTaxes * (tax / 100);
+                double finalPrice = priceBeforeTaxes + stateTaxes;
 
-                    calculator.setCity(city);
-                    calculator.setState(cityService.getStateByCity(city));
-                    calculator.setShape("triangle");
-                    calculator.setArea(CommonUtils.formatDouble(area));
-                    calculator.setPriceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes));
-                    calculator.setStateTax("$" + CommonUtils.formatDouble(stateTaxes));
-                    calculator.setFinalPrice("$" + CommonUtils.formatDouble(finalPrice));
+                calculator = Calculator.builder()
+                        .city(city)
+                        .state(cityService.getStateByCity(city))
+                        .shape("triangle")
+                        .area(CommonUtils.formatDouble(area))
+                        .priceBeforeTaxes("$" + CommonUtils.formatDouble(priceBeforeTaxes))
+                        .stateTax("$" + CommonUtils.formatDouble(stateTaxes))
+                        .finalPrice("$" + CommonUtils.formatDouble(finalPrice))
+                        .build();
 
             } else {
                 throw new InvalidDataException("Shape is not in the format of circle, rectangle or triangle.");

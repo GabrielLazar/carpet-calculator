@@ -26,12 +26,12 @@ public class WebController {
 
 
     @GetMapping
-    @RequestMapping("/home")
+    @RequestMapping("/")
     public String getHome(Model model){
 
         model.addAttribute("cities",cityService.getCities());
         model.addAttribute("carpet", new Carpet());
-        return "home";
+        return "index";
     }
 
     @PostMapping("/confirmation")
