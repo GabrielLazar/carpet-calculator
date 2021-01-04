@@ -11,6 +11,9 @@ import com.gabriellazar.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorService {
 
@@ -23,60 +26,23 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
 
     @Override
     public Calculator carpetCostCalculator(Carpet carpet) {
+        Map<String, Double> shapeArea = getArea(carpet.getShape());
+        String city = carpet.getCity().substring(0, carpet.getCity().indexOf("$") - 1);
 
-        String city = carpet.getCity().substring(0, carpet.getCity().indexOf(" "));
-        String state = cityService.getStateByCity(city);
-        String shape = "";
-        double tax = 0;
-        double price = 0;
-        double area = 0;
-        double priceBeforeTaxes = 0;
-        double stateTaxes = 0;
-        double finalPrice = 0;
-
-        if (cityService.isValidCity(city)) {
-            if (carpet.getShape().getRadius() != 0) {
-
-                shape = "circle";
-                int radius = carpet.getShape().getRadius();
-                tax = cityService.getStateTaxByCity(city);
-                price = cityService.getPriceByCity(city);
-                area = Constants.PI * (radius * radius);
-                priceBeforeTaxes = area * price;
-                stateTaxes = priceBeforeTaxes * (tax / 100);
-                finalPrice = priceBeforeTaxes + stateTaxes;
-
-            } else if (carpet.getShape().getLength() != 0 && carpet.getShape().getWidth() != 0) {
-
-                shape = "rectangle";
-                int length = carpet.getShape().getLength();
-                int width = carpet.getShape().getWidth();
-                tax = cityService.getStateTaxByCity(city);
-                price = cityService.getPriceByCity(city);
-                area = length * width;
-                priceBeforeTaxes = area * price;
-                stateTaxes = priceBeforeTaxes * (tax / 100);
-                finalPrice = priceBeforeTaxes + stateTaxes;
-
-            } else if (carpet.getShape().getBase() != 0 && carpet.getShape().getHeight() != 0) {
-
-                shape = "triangle";
-                int base = carpet.getShape().getBase();
-                int height = carpet.getShape().getHeight();
-                tax = cityService.getStateTaxByCity(city);
-                price = cityService.getPriceByCity(city);
-                area = (base * height) / 2f;
-                priceBeforeTaxes = area * price;
-                stateTaxes = priceBeforeTaxes * (tax / 100);
-                finalPrice = priceBeforeTaxes + stateTaxes;
-
-            } else {
-                throw new InvalidDataException("Shape is not in the format of circle, rectangle or triangle.");
-            }
-        } else {
+        if (!cityService.isValidCity(city)) {
             throw new InvalidDataException("City was not found with name :: " + city);
         }
-        return  Calculator.builder()
+
+        String state = cityService.getStateByCity(city);
+        String shape = shapeArea.keySet().stream().findAny().get();
+        double tax = cityService.getStateTaxByCity(city);
+        double price = cityService.getPriceByCity(city);
+        double area = shapeArea.get(shape);
+        double priceBeforeTaxes = area * price;
+        double stateTaxes = priceBeforeTaxes * (tax / 100);
+        double finalPrice = priceBeforeTaxes + stateTaxes;
+
+        return Calculator.builder()
                 .city(city)
                 .state(state)
                 .shape(shape)
@@ -85,5 +51,27 @@ public class CarpetCostCalculatorImplementation implements CarpetCostCalculatorS
                 .stateTax("$" + CommonUtils.formatDouble(stateTaxes))
                 .finalPrice("$" + CommonUtils.formatDouble(finalPrice))
                 .build();
+    }
+
+    @Override
+    public Map<String, Double> getArea(Shape carpetShape) {
+        Map<String, Double> map = new HashMap<>();
+        String shape = "";
+        double area = 0;
+
+        if (carpetShape.getRadius() != 0) {
+            shape = "circle";
+            area = Constants.PI * (carpetShape.getRadius() * carpetShape.getRadius());
+        } else if (carpetShape.getLength() != 0 && carpetShape.getWidth() != 0) {
+            shape = "rectangle";
+            area = carpetShape.getLength() * carpetShape.getWidth();
+        } else if (carpetShape.getBase() != 0 && carpetShape.getHeight() != 0) {
+            shape = "triangle";
+            area = (carpetShape.getBase() * carpetShape.getHeight()) / 2f;
+        } else {
+            throw new InvalidDataException("Shape is not in the format of circle, rectangle or triangle.");
+        }
+        map.put(shape, area);
+        return map;
     }
 }
