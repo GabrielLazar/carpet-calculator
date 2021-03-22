@@ -1,6 +1,6 @@
 # Carpet Cost Calculator
 
-A basic Spring-Boot MVC application, using Bootstrap and Thymeleaf, JPA and an H2 DB.
+A basic Spring-Boot MVC application, using Bootstrap and Thymeleaf, JPA,Hibernate and an H2 DB.
 I created this application based on the requirements below 
 and I improve it over time.   
 
