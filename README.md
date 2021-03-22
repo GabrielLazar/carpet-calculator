@@ -29,4 +29,8 @@ To run this project locally, perform the following steps.
 3. Run Spring-boot project
 4. Access http://localhost:8084/CarpetCostCalculator/
 
-Created by @Gabriel Lazar 
+Created by @Gabriel Lazar
+
+# Screenshots
+![CarpetCost Welcome](https://user-images.githubusercontent.com/72663607/111928098-b1e5b380-8a80-11eb-8fa4-b6a25770a142.PNG)
+
