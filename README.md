@@ -33,4 +33,5 @@ Created by @Gabriel Lazar
 
 # Screenshots
 ![CarpetCost Welcome](https://user-images.githubusercontent.com/72663607/111928098-b1e5b380-8a80-11eb-8fa4-b6a25770a142.PNG)
+![CarpetCost Confirmation](https://user-images.githubusercontent.com/72663607/111928194-f3765e80-8a80-11eb-9a64-aca0e5f34075.PNG)
 
